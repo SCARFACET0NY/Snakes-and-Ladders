@@ -66,6 +66,7 @@ class GameServiceTest {
         token.setCoordinateY(START_POSITION_Y);
 
         when(game.getToken()).thenReturn(token);
+        when(game.rollDie(DICE_SIZE)).thenReturn(3).thenReturn(4);
 
         gameService.moveToken(token);
         gameService.moveToken(token);
