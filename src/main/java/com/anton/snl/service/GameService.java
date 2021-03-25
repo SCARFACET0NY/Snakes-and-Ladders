@@ -24,7 +24,7 @@ public class GameService {
         return game;
     }
 
-    public void assignNewPosition(Token token, int spaces) {
+    public void assignNewPosition(Token token) {
         int coordinateX = token.getCoordinateX();
 
         if (spaces + coordinateX < BOARD_SIZE) {
@@ -37,8 +37,8 @@ public class GameService {
         }
     }
 
-    public void moveToken(Token token,  int spaces) {
-        assignNewPosition(token, spaces);
+    public void moveToken(Token token) {
+        assignNewPosition(token);
         game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
         game.setToken(token);
     }

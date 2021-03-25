@@ -51,8 +51,9 @@ class GameServiceTest {
         token.setCoordinateY(START_POSITION_Y);
 
         when(game.getToken()).thenReturn(token);
+        when(game.rollDie(6)).thenReturn(3);
 
-        gameService.moveToken(token, 3);
+        gameService.moveToken(token);
 
         assertEquals(3, game.getToken().getCoordinateX());
         assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
@@ -65,12 +66,10 @@ class GameServiceTest {
 
         when(game.getToken()).thenReturn(token);
 
-        gameService.moveToken(token, 3);
-        gameService.moveToken(token, 4);
+        gameService.moveToken(token);
+        gameService.moveToken(token);
 
         assertEquals(7, game.getToken().getCoordinateX());
         assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
     }
-
-
 }

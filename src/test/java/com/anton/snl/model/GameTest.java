@@ -16,7 +16,6 @@ class GameTest {
         int roll4 = game.rollDie(DIE_SIZE);
         int roll5 = game.rollDie(DIE_SIZE);
 
-
         assertTrue(roll1 >= 1 && roll1 <= 6);
         assertTrue(roll2 >= 1 && roll2 <= 6);
         assertTrue(roll3 >= 1 && roll3 <= 6);
