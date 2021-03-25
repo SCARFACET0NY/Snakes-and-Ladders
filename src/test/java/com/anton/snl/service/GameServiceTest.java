@@ -74,4 +74,19 @@ class GameServiceTest {
         assertEquals(7, game.getToken().getCoordinateX());
         assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
     }
+
+    @Test
+    void ifPlayerRollsFourTokenShouldMoveFourSpaces() {
+        int startingPositionX = 3;
+        int expectedDifference = 4;
+
+        token.setCoordinateX(startingPositionX);
+        token.setCoordinateY(2);
+
+        when(game.rollDie(6)).thenReturn(expectedDifference);
+
+        gameService.moveToken(token);
+
+        assertEquals(expectedDifference, token.getCoordinateX() - startingPositionX);
+    }
 }
