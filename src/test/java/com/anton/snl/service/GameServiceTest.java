@@ -10,11 +10,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GameServiceTest {
     private final int BOARD_SIZE = 10;
+    private final int START_POSITION_X = 0;
+    private final int START_POSITION_Y = 0;
 
     Token token;
     @Mock
@@ -33,26 +36,40 @@ class GameServiceTest {
         when(game.isActive()).thenReturn(true);
         when(game.getToken()).thenReturn(token);
 
-        token.setCoordinateX(0);
-        token.setCoordinateY(0);
+        token.setCoordinateX(START_POSITION_X);
+        token.setCoordinateY(START_POSITION_Y);
 
         Game startedGame = gameService.startGame(token);
 
         assertTrue(startedGame.isActive());
-        assertEquals(0, game.getToken().getCoordinateX());
-        assertEquals(0, game.getToken().getCoordinateY());
+        assertEquals(START_POSITION_X, game.getToken().getCoordinateX());
+        assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
     }
 
     @Test
     void whenTokenIsMovedThreeSpacesItIsLocatedOnFourth() {
-        token.setCoordinateX(0);
-        token.setCoordinateY(0);
+        token.setCoordinateX(START_POSITION_X);
+        token.setCoordinateY(START_POSITION_Y);
 
         when(game.getToken()).thenReturn(token);
 
         gameService.moveToken(token, 3);
 
         assertEquals(3, game.getToken().getCoordinateX());
-        assertEquals(0, game.getToken().getCoordinateY());
+        assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
+    }
+
+    @Test
+    void whenTokenIsMovedThreeSpacesAndThenFourItIsLocatedOnEights() {
+        token.setCoordinateX(START_POSITION_X);
+        token.setCoordinateY(START_POSITION_Y);
+
+        when(game.getToken()).thenReturn(token);
+
+        gameService.moveToken(token, 3);
+        gameService.moveToken(token, 4);
+
+        assertEquals(7, game.getToken().getCoordinateX());
+        assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
     }
 }
