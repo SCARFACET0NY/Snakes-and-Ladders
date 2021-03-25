@@ -99,7 +99,8 @@ class GameServiceTest {
         token.setCoordinateX(6);
         token.setCoordinateY(9);
 
-        when(game.isActive()).thenReturn(true);
+        when(game.isActive()).thenReturn(false).thenReturn(true);
+        when(game.rollDie(6)).thenReturn(spacesToWin);
 
         gameService.turn(token);
 

@@ -41,6 +41,10 @@ public class GameService {
         token.setLastRoll(roll);
     }
 
+    public void clearOldPosition(Token token) {
+        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] -= token.getPlayerNumber();
+    }
+
     public void moveToken(Token token) {
         assignNewPosition(token);
         game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
@@ -48,14 +52,16 @@ public class GameService {
     }
 
     public void checkWin(Token token) {
-        token.setWinner(true);
-        game.setActive(false);
+        if (token.getCoordinateY() == BOARD_SIZE - 1 && token.getCoordinateX() == BOARD_SIZE - 1) {
+            token.setWinner(true);
+            game.setActive(false);
+        }
     }
 
     public Game turn(Token token) {
-        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] -= token.getPlayerNumber();
-        moveToken(token);
-        if (game.isActive()) {
+        if (!game.isActive()) {
+            clearOldPosition(token);
+            moveToken(token);
             checkWin(token);
         }
 
