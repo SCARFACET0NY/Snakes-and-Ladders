@@ -89,4 +89,19 @@ class GameServiceTest {
 
         assertEquals(expectedDifference, token.getCoordinateX() - startingPositionX);
     }
+
+    @Test
+    void playerHasWonIfLandedOnExactlyOnTheFinish() {
+        int spacesToWin = 3;
+
+        token.setCoordinateX(6);
+        token.setCoordinateY(9);
+
+        when(game.isActive()).thenReturn(true);
+        when(game.rollDie(6)).thenReturn(spacesToWin);
+
+        gameService.turn(token);
+
+        assertTrue(token.isWinner());
+    }
 }
