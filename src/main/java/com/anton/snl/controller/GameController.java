@@ -26,4 +26,11 @@ public class GameController {
 
         return ResponseEntity.ok(gameService.startGame(token));
     }
+
+    @PostMapping("/turn")
+    public ResponseEntity<Game> turn(@RequestBody Token token) {
+        log.info("turn request: {}", token);
+
+        return ResponseEntity.ok(gameService.turn(token));
+    }
 }
