@@ -24,13 +24,21 @@ public class GameService {
         return game;
     }
 
-    public void assignNewPosition(Token token) {
-        token.setCoordinateX(token.getCoordinateX() + 3);
-        token.setCoordinateY(token.getCoordinateY());
+    public void assignNewPosition(Token token, int spaces) {
+        int coordinateX = token.getCoordinateX();
+
+        if (spaces + coordinateX < BOARD_SIZE) {
+            token.setCoordinateX(coordinateX + spaces);
+        } else {
+            if (token.getCoordinateY() < BOARD_SIZE - 1) {
+                token.setCoordinateY(token.getCoordinateY() + 1);
+                token.setCoordinateX(spaces + coordinateX - BOARD_SIZE);
+            }
+        }
     }
 
-    public void moveToken(Token token) {
-        assignNewPosition(token);
+    public void moveToken(Token token,  int spaces) {
+        assignNewPosition(token, spaces);
         game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
         game.setToken(token);
     }

@@ -50,7 +50,7 @@ class GameServiceTest {
 
         when(game.getToken()).thenReturn(token);
 
-        gameService.moveToken(token);
+        gameService.moveToken(token, 3);
 
         assertEquals(3, game.getToken().getCoordinateX());
         assertEquals(0, game.getToken().getCoordinateY());
