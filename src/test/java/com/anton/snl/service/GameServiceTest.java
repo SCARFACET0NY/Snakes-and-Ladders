@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,6 +42,19 @@ class GameServiceTest {
 
         assertTrue(startedGame.isActive());
         assertEquals(0, game.getToken().getCoordinateX());
+        assertEquals(0, game.getToken().getCoordinateY());
+    }
+
+    @Test
+    void whenTokenIsMovedThreeSpacesItIsLocatedOnFourth() {
+        token.setCoordinateX(0);
+        token.setCoordinateY(0);
+
+        when(game.getToken()).thenReturn(token);
+
+        gameService.moveToken(token);
+
+        assertEquals(3, game.getToken().getCoordinateX());
         assertEquals(0, game.getToken().getCoordinateY());
     }
 }
