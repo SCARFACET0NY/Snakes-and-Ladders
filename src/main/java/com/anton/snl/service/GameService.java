@@ -23,4 +23,15 @@ public class GameService {
 
         return game;
     }
+
+    public void assignNewPosition(Token token) {
+        token.setCoordinateX(token.getCoordinateX() + 3);
+        token.setCoordinateY(token.getCoordinateY());
+    }
+
+    public void moveToken(Token token) {
+        assignNewPosition(token);
+        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
+        game.setToken(token);
+    }
 }
