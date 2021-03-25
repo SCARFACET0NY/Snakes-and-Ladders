@@ -1,5 +1,6 @@
 package com.anton.snl.service;
 
+import com.anton.snl.exception.GameNotActiveException;
 import com.anton.snl.model.Game;
 import com.anton.snl.model.Token;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,6 +103,7 @@ class GameServiceTest {
         when(game.isActive()).thenReturn(false).thenReturn(true);
         when(game.rollDie(6)).thenReturn(spacesToWin);
 
+        assertThrows(GameNotActiveException.class, () -> gameService.turn(token));
         gameService.turn(token);
 
         assertTrue(token.isWinner());
