@@ -108,4 +108,24 @@ class GameServiceTest {
 
         assertTrue(token.isWinner());
     }
+
+    @Test
+    void playerStayedOnTheSameSpotIfRolledNumberOverTheFinish() {
+        int spacesToWin = 3;
+        int startingPositionX = 6;
+        int startingPositionY = 9;
+
+        token.setCoordinateX(startingPositionX);
+        token.setCoordinateY(startingPositionY);
+
+        when(game.isActive()).thenReturn(true);
+        when(game.getToken()).thenReturn(token);
+        when(game.rollDie(6)).thenReturn(spacesToWin + 2);
+
+        gameService.turn(token);
+
+        assertFalse(token.isWinner());
+        assertEquals(startingPositionX, game.getToken().getCoordinateX());
+        assertEquals(startingPositionY, game.getToken().getCoordinateY());
+    }
 }
