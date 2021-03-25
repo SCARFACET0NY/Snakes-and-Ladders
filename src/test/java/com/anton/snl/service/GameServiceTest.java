@@ -10,14 +10,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GameServiceTest {
-    private final int BOARD_SIZE = 10;
-    private final int START_POSITION_X = 0;
-    private final int START_POSITION_Y = 0;
+    public static final int BOARD_SIZE = 10;
+    public static final int START_POSITION_X = 0;
+    public static final int START_POSITION_Y = 0;
 
     Token token;
     @Mock
@@ -72,4 +71,6 @@ class GameServiceTest {
         assertEquals(7, game.getToken().getCoordinateX());
         assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
     }
+
+
 }

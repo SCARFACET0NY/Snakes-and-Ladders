@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Setter
 @AllArgsConstructor
 public class GameService {
-    private final int BOARD_SIZE = 10;
+    public static final int BOARD_SIZE = 10;
     private final Game game;
 
     public Game startGame(Token token) {
