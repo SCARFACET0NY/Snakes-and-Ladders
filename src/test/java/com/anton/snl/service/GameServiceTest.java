@@ -58,6 +58,7 @@ class GameServiceTest {
 
         assertEquals(3, game.getToken().getCoordinateX());
         assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
+        verify(game).rollDie(anyInt());
     }
 
     @Test
@@ -73,6 +74,7 @@ class GameServiceTest {
 
         assertEquals(7, game.getToken().getCoordinateX());
         assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
+        verify(game, times(2)).rollDie(anyInt());
     }
 
     @Test
@@ -98,7 +100,6 @@ class GameServiceTest {
         token.setCoordinateY(9);
 
         when(game.isActive()).thenReturn(true);
-        when(game.rollDie(6)).thenReturn(spacesToWin);
 
         gameService.turn(token);
 

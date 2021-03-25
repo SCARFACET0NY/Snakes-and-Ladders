@@ -46,4 +46,19 @@ public class GameService {
         game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
         game.setToken(token);
     }
+
+    public void checkWin(Token token) {
+        token.setWinner(true);
+        game.setActive(false);
+    }
+
+    public Game turn(Token token) {
+        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] -= token.getPlayerNumber();
+        moveToken(token);
+        if (game.isActive()) {
+            checkWin(token);
+        }
+
+        return game;
+    }
 }

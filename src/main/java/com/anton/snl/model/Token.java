@@ -11,4 +11,5 @@ public class Token {
     private int coordinateX;
     private int coordinateY;
     private int lastRoll;
+    private boolean isWinner;
 }
