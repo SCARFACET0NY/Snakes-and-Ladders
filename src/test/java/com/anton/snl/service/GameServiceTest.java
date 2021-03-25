@@ -21,8 +21,16 @@ class GameServiceTest {
 
     @Test
     void whenGameIsActiveTokenIsPlacedOnTheFirstSquare() {
-        Game startedGame = gameService.startGame(null);
+        when(game.isActive()).thenReturn(true);
+        when(game.getToken()).thenReturn(token);
+
+        token.setCoordinateX(0);
+        token.setCoordinateY(0);
+
+        Game startedGame = gameService.startGame(token);
 
         assertTrue(startedGame.isActive());
+        assertEquals(0, game.getToken().getCoordinateX());
+        assertEquals(0, game.getToken().getCoordinateY());
     }
 }
