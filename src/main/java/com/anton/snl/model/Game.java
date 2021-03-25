@@ -3,6 +3,8 @@ package com.anton.snl.model;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.Random;
+
 @Data
 @Component
 public class Game {
@@ -11,6 +13,6 @@ public class Game {
     private boolean isActive;
 
     public int rollDie(int diceSize) {
-        return 1;
+        return new Random().nextInt(diceSize) + 1;
     }
 }
