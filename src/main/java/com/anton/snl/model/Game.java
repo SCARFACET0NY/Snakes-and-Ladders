@@ -9,4 +9,8 @@ public class Game {
     private int[][] board;
     private Token token;
     private boolean isActive;
+
+    public int rollDie(int diceSize) {
+        return 1;
+    }
 }
