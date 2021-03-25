@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 @Setter
 @AllArgsConstructor
 public class GameService {
+    private final int BOARD_SIZE = 10;
     private final Game game;
 
     public Game startGame(Token token) {
-        Game game = new Game();
+        game.setBoard(new int[BOARD_SIZE][BOARD_SIZE]);
+        game.setToken(token);
+        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
         game.setActive(true);
 
         return game;

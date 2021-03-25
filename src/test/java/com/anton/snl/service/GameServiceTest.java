@@ -2,6 +2,7 @@ package com.anton.snl.service;
 
 import com.anton.snl.model.Game;
 import com.anton.snl.model.Token;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,11 +14,19 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GameServiceTest {
+    private final int BOARD_SIZE = 10;
+
     Token token;
     @Mock
     Game game;
     @InjectMocks
     GameService gameService;
+
+    @BeforeEach
+    void before() {
+        token = new Token();
+        when(game.getBoard()).thenReturn(new int[BOARD_SIZE][BOARD_SIZE]);
+    }
 
     @Test
     void whenGameIsActiveTokenIsPlacedOnTheFirstSquare() {
