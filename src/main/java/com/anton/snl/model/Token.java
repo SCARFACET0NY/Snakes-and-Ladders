@@ -10,4 +10,5 @@ public class Token {
     private int playerNumber;
     private int coordinateX;
     private int coordinateY;
+    private int lastRoll;
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class GameService {
     public static final int BOARD_SIZE = 10;
+    public static final int DICE_SIZE = 6;
     private final Game game;
 
     public Game startGame(Token token) {
@@ -25,16 +26,19 @@ public class GameService {
     }
 
     public void assignNewPosition(Token token) {
+        int roll = game.rollDie(DICE_SIZE);
         int coordinateX = token.getCoordinateX();
 
-        if (spaces + coordinateX < BOARD_SIZE) {
-            token.setCoordinateX(coordinateX + spaces);
+        if (roll + coordinateX < BOARD_SIZE) {
+            token.setCoordinateX(coordinateX + roll);
         } else {
             if (token.getCoordinateY() < BOARD_SIZE - 1) {
                 token.setCoordinateY(token.getCoordinateY() + 1);
-                token.setCoordinateX(spaces + coordinateX - BOARD_SIZE);
+                token.setCoordinateX(roll + coordinateX - BOARD_SIZE);
             }
         }
+
+        token.setLastRoll(roll);
     }
 
     public void moveToken(Token token) {

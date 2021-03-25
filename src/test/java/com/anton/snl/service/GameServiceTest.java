@@ -15,6 +15,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class GameServiceTest {
     public static final int BOARD_SIZE = 10;
+    public static final int DICE_SIZE = 6;
     public static final int START_POSITION_X = 0;
     public static final int START_POSITION_Y = 0;
 
@@ -51,7 +52,7 @@ class GameServiceTest {
         token.setCoordinateY(START_POSITION_Y);
 
         when(game.getToken()).thenReturn(token);
-        when(game.rollDie(6)).thenReturn(3);
+        when(game.rollDie(DICE_SIZE)).thenReturn(3);
 
         gameService.moveToken(token);
 
