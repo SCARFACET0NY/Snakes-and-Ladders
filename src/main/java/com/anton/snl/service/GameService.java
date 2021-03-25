@@ -1,5 +1,6 @@
 package com.anton.snl.service;
 
+import com.anton.snl.exception.GameNotActiveException;
 import com.anton.snl.model.Game;
 import com.anton.snl.model.Token;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,10 @@ public class GameService {
         return game;
     }
 
+    public void clearOldPosition(Token token) {
+        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] -= token.getPlayerNumber();
+    }
+
     public void assignNewPosition(Token token) {
         int roll = game.rollDie(DICE_SIZE);
         int coordinateX = token.getCoordinateX();
@@ -39,10 +44,6 @@ public class GameService {
         }
 
         token.setLastRoll(roll);
-    }
-
-    public void clearOldPosition(Token token) {
-        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] -= token.getPlayerNumber();
     }
 
     public void moveToken(Token token) {
@@ -60,10 +61,12 @@ public class GameService {
 
     public Game turn(Token token) {
         if (!game.isActive()) {
-            clearOldPosition(token);
-            moveToken(token);
-            checkWin(token);
+            throw new GameNotActiveException("You should start game before making turns");
         }
+
+        clearOldPosition(token);
+        moveToken(token);
+        checkWin(token);
 
         return game;
     }
