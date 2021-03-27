@@ -13,34 +13,29 @@ import org.springframework.stereotype.Service;
 @Setter
 @AllArgsConstructor
 public class GameService {
-    public static final int BOARD_SIZE = 10;
+    public static final int BOARD_SIZE = 100;
     public static final int DICE_SIZE = 6;
     private final Game game;
 
     public Game startGame(Token token) {
-        game.setBoard(new int[BOARD_SIZE][BOARD_SIZE]);
+        game.setBoard(new int[BOARD_SIZE]);
         game.setToken(token);
-        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
+        game.getBoard()[token.getPosition()] += token.getPlayerNumber();
         game.setActive(true);
 
         return game;
     }
 
     public void clearOldPosition(Token token) {
-        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] -= token.getPlayerNumber();
+        game.getBoard()[token.getPosition()] -= token.getPlayerNumber();
     }
 
     public void assignNewPosition(Token token) {
         int roll = game.rollDie(DICE_SIZE);
-        int coordinateX = token.getCoordinateX();
+        int position = token.getPosition();
 
-        if (roll + coordinateX < BOARD_SIZE) {
-            token.setCoordinateX(coordinateX + roll);
-        } else {
-            if (token.getCoordinateY() < BOARD_SIZE - 1) {
-                token.setCoordinateY(token.getCoordinateY() + 1);
-                token.setCoordinateX(roll + coordinateX - BOARD_SIZE);
-            }
+        if (roll + position < BOARD_SIZE) {
+            token.setPosition(position + roll);
         }
 
         token.setLastRoll(roll);
@@ -48,12 +43,12 @@ public class GameService {
 
     public void moveToken(Token token) {
         assignNewPosition(token);
-        game.getBoard()[token.getCoordinateY()][token.getCoordinateX()] += token.getPlayerNumber();
+        game.getBoard()[token.getPosition()] += token.getPlayerNumber();
         game.setToken(token);
     }
 
     public void checkWin(Token token) {
-        if (token.getCoordinateY() == BOARD_SIZE - 1 && token.getCoordinateX() == BOARD_SIZE - 1) {
+        if (token.getPosition() == BOARD_SIZE - 1) {
             token.setWinner(true);
             game.setActive(false);
         }

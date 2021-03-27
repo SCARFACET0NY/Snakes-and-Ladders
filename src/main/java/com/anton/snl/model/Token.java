@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 public class Token {
     private String playerName;
     private int playerNumber;
-    private int coordinateX;
-    private int coordinateY;
+    private int position;
     private int lastRoll;
     private boolean isWinner;
 }

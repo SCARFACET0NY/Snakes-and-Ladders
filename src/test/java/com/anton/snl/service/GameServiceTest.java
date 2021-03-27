@@ -15,10 +15,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GameServiceTest {
-    public static final int BOARD_SIZE = 10;
+    public static final int BOARD_SIZE = 100;
     public static final int DICE_SIZE = 6;
-    public static final int START_POSITION_X = 0;
-    public static final int START_POSITION_Y = 0;
+    public static final int START_POSITION = 0;
 
     Token token;
     @Mock
@@ -29,7 +28,7 @@ class GameServiceTest {
     @BeforeEach
     void before() {
         token = new Token();
-        when(game.getBoard()).thenReturn(new int[BOARD_SIZE][BOARD_SIZE]);
+        when(game.getBoard()).thenReturn(new int[BOARD_SIZE]);
     }
 
     @Test
@@ -37,35 +36,30 @@ class GameServiceTest {
         when(game.isActive()).thenReturn(true);
         when(game.getToken()).thenReturn(token);
 
-        token.setCoordinateX(START_POSITION_X);
-        token.setCoordinateY(START_POSITION_Y);
+        token.setPosition(START_POSITION);
 
         Game startedGame = gameService.startGame(token);
 
         assertTrue(startedGame.isActive());
-        assertEquals(START_POSITION_X, game.getToken().getCoordinateX());
-        assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
+        assertEquals(START_POSITION, game.getToken().getPosition());
     }
 
     @Test
     void whenTokenIsMovedThreeSpacesItIsLocatedOnFourth() {
-        token.setCoordinateX(START_POSITION_X);
-        token.setCoordinateY(START_POSITION_Y);
+        token.setPosition(START_POSITION);
 
         when(game.getToken()).thenReturn(token);
         when(game.rollDie(DICE_SIZE)).thenReturn(3);
 
         gameService.moveToken(token);
 
-        assertEquals(3, game.getToken().getCoordinateX());
-        assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
+        assertEquals(3, game.getToken().getPosition());
         verify(game).rollDie(anyInt());
     }
 
     @Test
     void whenTokenIsMovedThreeSpacesAndThenFourItIsLocatedOnEights() {
-        token.setCoordinateX(START_POSITION_X);
-        token.setCoordinateY(START_POSITION_Y);
+        token.setPosition(START_POSITION);
 
         when(game.getToken()).thenReturn(token);
         when(game.rollDie(DICE_SIZE)).thenReturn(3).thenReturn(4);
@@ -73,35 +67,32 @@ class GameServiceTest {
         gameService.moveToken(token);
         gameService.moveToken(token);
 
-        assertEquals(7, game.getToken().getCoordinateX());
-        assertEquals(START_POSITION_Y, game.getToken().getCoordinateY());
+        assertEquals(7, game.getToken().getPosition());
         verify(game, times(2)).rollDie(anyInt());
     }
 
     @Test
     void ifPlayerRollsFourTokenShouldMoveFourSpaces() {
-        int startingPositionX = 3;
+        int startingPosition = 3;
         int expectedDifference = 4;
 
-        token.setCoordinateX(startingPositionX);
-        token.setCoordinateY(2);
+        token.setPosition(startingPosition);;
 
-        when(game.rollDie(6)).thenReturn(expectedDifference);
+        when(game.rollDie(DICE_SIZE)).thenReturn(expectedDifference);
 
         gameService.moveToken(token);
 
-        assertEquals(expectedDifference, token.getCoordinateX() - startingPositionX);
+        assertEquals(expectedDifference, token.getPosition() - startingPosition);
     }
 
     @Test
     void playerHasWonIfLandedOnExactlyOnTheFinish() {
         int spacesToWin = 3;
 
-        token.setCoordinateX(6);
-        token.setCoordinateY(9);
+        token.setPosition(96);
 
         when(game.isActive()).thenReturn(false).thenReturn(true);
-        when(game.rollDie(6)).thenReturn(spacesToWin);
+        when(game.rollDie(DICE_SIZE)).thenReturn(spacesToWin);
 
         assertThrows(GameNotActiveException.class, () -> gameService.turn(token));
         gameService.turn(token);
@@ -112,11 +103,9 @@ class GameServiceTest {
     @Test
     void playerStayedOnTheSameSpotIfRolledNumberOverTheFinish() {
         int spacesToWin = 3;
-        int startingPositionX = 6;
-        int startingPositionY = 9;
+        int startingPosition = 96;
 
-        token.setCoordinateX(startingPositionX);
-        token.setCoordinateY(startingPositionY);
+        token.setPosition(startingPosition);
 
         when(game.isActive()).thenReturn(true);
         when(game.getToken()).thenReturn(token);
@@ -125,7 +114,6 @@ class GameServiceTest {
         gameService.turn(token);
 
         assertFalse(token.isWinner());
-        assertEquals(startingPositionX, game.getToken().getCoordinateX());
-        assertEquals(startingPositionY, game.getToken().getCoordinateY());
+        assertEquals(startingPosition, game.getToken().getPosition());
     }
 }

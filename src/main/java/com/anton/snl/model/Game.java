@@ -8,7 +8,7 @@ import java.util.Random;
 @Data
 @Component
 public class Game {
-    private int[][] board;
+    private int[] board;
     private Token token;
     private boolean isActive;
 
